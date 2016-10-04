@@ -1,11 +1,15 @@
-class GitBackport
+class BackportService
+  def self.run(pull_request)
+    new(pull_request.repo, pull_request.target_branch, pull_request.sha).run
+  end
+
   def initialize(repo, target_branch, sha)
     @repo = repo
     @target_branch = target_branch
     @sha = sha
   end
 
-  def call
+  def run
     Dir.chdir(repo) do
       fetch_latest
       checkout_target_branch
