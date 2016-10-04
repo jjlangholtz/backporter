@@ -1,24 +1,30 @@
-# README
+# Backporter
+The Backporter is a service that responds to [GitHub Webhooks](https://developer.github.com/webhooks/) to trigger automatic commit backports.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## How does it work?
+When a pull request is merged **and** is labeled with a pre-configured targeted label, a webhook is sent from GitHub to the service. The service will then apply a `git cherry-pick` from the designated sha to the target branch.
 
-Things you may want to cover:
+If the backport is successful, the service will use the GitHub API to:
 
-* Ruby version
+1. Push the backported commit to the target branch
+2. Remove the target label from the merged pull request
+3. Add a new backported label to the merged pull reqeust
+4. Make a pull request comment including `git log` output from the backport
 
-* System dependencies
+If the backport is unsuccessful, the service will:
 
-* Configuration
+1. Remove the target label from the merged pull request
+2. Add a new conflict label to the merged pull request
+3. Make a pull request comment including `git diff` output from the backport
 
-* Database creation
+## Getting started
 
-* Database initialization
+### Prerequisites
+* Ruby 2.3 with bundler
+* Postgresql
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Setup
+1. `git clone git@github.com:jjlangholtz/backporter.git`
+2. `cd backporter`
+3. `bin/setup`
+4. `bin/rails server`
