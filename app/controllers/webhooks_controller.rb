@@ -13,6 +13,6 @@ class WebhooksController < ApplicationController
   private
 
   def pull_request
-    @pull_request ||= PullRequest.new(params)
+    @pull_request ||= PullRequest.new(params.require(:webhook))
   end
 end

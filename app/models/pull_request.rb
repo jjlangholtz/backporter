@@ -1,6 +1,6 @@
 class PullRequest
   def initialize(params)
-    @data = JSON.parse(params)
+    @data = params.as_json
   end
 
   def id
@@ -8,7 +8,7 @@ class PullRequest
   end
 
   def repo
-    data.dig('pull_request', 'repository', 'full_name')
+    data.dig('repository', 'full_name')
   end
 
   def merge_commit_sha

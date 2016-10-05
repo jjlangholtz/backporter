@@ -3,8 +3,8 @@ class BackportService
     new(pull_request.repo, pull_request.merge_commit_sha).run
   end
 
-  def initialize(repo, sha)
-    @repo = repo
+  def initialize(_repo, sha)
+    @repo = '/Users/jlanghol/repos/jjlangholtz/backporter' # TODO: figure out where to store git repos
     @target_branch = 'backports' # TODO: pull target_branch from configuration
     @sha = sha
   end
