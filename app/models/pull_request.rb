@@ -27,7 +27,16 @@ class PullRequest
     data['action'] == 'labeled'
   end
 
+  # TODO: Read target label from configuration
+  def includes_target_label?
+    client.labels.any? { |label| label.name == 'yes' }
+  end
+
   private
 
   attr_reader :data
+
+  def client
+    @client ||= GitHubApi.new(repo, id)
+  end
 end

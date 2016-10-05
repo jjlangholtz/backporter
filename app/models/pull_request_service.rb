@@ -20,11 +20,11 @@ class PullRequestService
 
   # TODO: pull target label names from a configuration file
   def remove_target_label
-    client.remove_label('Yes')
+    client.remove_label('yes')
   end
 
   def add_backported_label
-    client.add_label('Backported')
+    client.add_label('backported')
   end
 
   def add_git_log_comment
