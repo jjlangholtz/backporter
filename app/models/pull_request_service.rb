@@ -28,7 +28,9 @@ class PullRequestService
   end
 
   def add_git_log_comment
-    client.comment(`git show`)
+    content = "```diff\n"
+    content += `git show`
+    client.comment(content)
   end
 
   def client
