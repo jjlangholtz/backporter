@@ -4,8 +4,8 @@ class WebhooksController < ApplicationController
 
     if pull_request.merged? && pull_request.includes_target_label?
       Dir.chdir(Settings.repo) do
-        BackportService.run(pull_request)
-        PullRequestService.run(pull_request)
+        comment = BackportService.run(pull_request)
+        PullRequestService.run(pull_request, comment)
       end
     elsif pull_request.labeled?
       # TODO: Persist PR with labels
