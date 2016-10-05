@@ -1,9 +1,9 @@
 class WebhooksController < ApplicationController
-  REPO = '/Users/jlanghol/repos/jjlangholtz/backporter'.freeze # TODO: figure out where to store git repos
-
   def create
+    return head(:internal_server_error) unless valid_signature?
+
     if pull_request.merged? && pull_request.includes_target_label?
-      Dir.chdir(REPO) do
+      Dir.chdir(Settings.repo) do
         BackportService.run(pull_request)
         PullRequestService.run(pull_request)
       end
@@ -18,5 +18,11 @@ class WebhooksController < ApplicationController
 
   def pull_request
     @pull_request ||= PullRequest.new(params.require(:webhook))
+  end
+
+  def valid_signature?
+    digest = OpenSSL::Digest.new('sha1')
+    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(digest, ENV['SECRET_TOKEN'], request.body.read)
+    Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
   end
 end

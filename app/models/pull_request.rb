@@ -27,9 +27,8 @@ class PullRequest
     data['action'] == 'labeled'
   end
 
-  # TODO: Read target label from configuration
   def includes_target_label?
-    client.labels.any? { |label| label.name == 'yes' }
+    client.labels.any? { |label| label.name == Settings.target_label }
   end
 
   private

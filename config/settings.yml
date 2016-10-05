@@ -1,0 +1,6 @@
+---
+:project:
+  :backport_label: backport
+  :repo: /Users/jlanghol/repos/jjlangholtz/backporter
+  :target_branch: backports
+  :target_label: "yes"

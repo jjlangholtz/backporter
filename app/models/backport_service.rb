@@ -4,7 +4,7 @@ class BackportService
   end
 
   def initialize(sha)
-    @target_branch = 'backports' # TODO: pull target_branch from configuration
+    @target_branch = Settings.target_branch
     @sha = sha
   end
 

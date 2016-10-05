@@ -18,19 +18,25 @@ class PullRequestService
 
   attr_reader :repo, :id
 
-  # TODO: pull target label names from a configuration file
   def remove_target_label
-    client.remove_label('yes')
+    client.remove_label(Settings.target_label)
   end
 
   def add_backported_label
-    client.add_label('backported')
+    client.add_label(Settings.backport_label)
   end
 
   def add_git_log_comment
-    content = "```diff\n"
-    content += `git show`
-    client.comment(content)
+    client.comment(comment)
+  end
+
+  def comment
+    <<~EOS
+      Backported with no conflicts: #{`git rev-parse --short HEAD`}
+
+      ```diff
+      #{`git show`}
+    EOS
   end
 
   def client
