@@ -16,7 +16,7 @@ class PullRequestService
 
   private
 
-  attr_reader :id
+  attr_reader :repo, :id
 
   # TODO: pull target label names from a configuration file
   def remove_target_label
