@@ -9,7 +9,7 @@ If the backport is successful, the service will use the GitHub API to:
 1. Push the backported commit to the target branch
 2. Remove the target label from the merged pull request
 3. Add a new backported label to the merged pull reqeust
-4. Make a pull request comment including `git log` output from the backport
+4. Make a pull request comment including `git show` output from the backport
 
 If the backport is unsuccessful, the service will:
 
