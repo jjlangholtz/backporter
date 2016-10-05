@@ -19,6 +19,14 @@ class PullRequest
     data['action'] == 'closed' && data.dig('pull_request', 'merged') == true
   end
 
+  def label
+    labeled? ? data.dig('pull_request', 'label', 'name') : ''
+  end
+
+  def labeled?
+    data['action'] == 'labeled'
+  end
+
   private
 
   attr_reader :data

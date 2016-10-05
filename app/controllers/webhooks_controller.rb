@@ -3,7 +3,9 @@ class WebhooksController < ApplicationController
     if pull_request.merged?
       BackportService.run(pull_request)
       PullRequestService.run(pull_request)
+    elsif pull_request.labeled?
     end
+
     head :ok
   end
 
