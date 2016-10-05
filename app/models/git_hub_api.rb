@@ -8,6 +8,10 @@ class GitHubApi
     @number = pull_request_id
   end
 
+  def labels
+    client.labels_for_issue(repo, number)
+  end
+
   def remove_label(name)
     client.remove_label(repo, number, name)
   end

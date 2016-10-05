@@ -1,11 +1,11 @@
 class BackportService
   def self.run(pull_request)
-    new(pull_request.repo, pull_request.target_branch, pull_request.sha).run
+    new(pull_request.repo, pull_request.merge_commit_sha).run
   end
 
-  def initialize(repo, target_branch, sha)
+  def initialize(repo, sha)
     @repo = repo
-    @target_branch = target_branch
+    @target_branch = 'backports' # TODO: pull target_branch from configuration
     @sha = sha
   end
 
