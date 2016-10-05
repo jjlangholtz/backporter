@@ -1,6 +1,6 @@
 class PullRequestService
   def self.run(pull_request)
-    new(pull_request)
+    new(pull_request).run
   end
 
   def initialize(pull_request)
