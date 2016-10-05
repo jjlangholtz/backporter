@@ -8,6 +8,10 @@ module Settings
       @data.dig(:project, :backport_label)
     end
 
+    def conflict_label
+      @data.dig(:project, :conflict_label)
+    end
+
     def repo
       @data.dig(:project, :repo)
     end

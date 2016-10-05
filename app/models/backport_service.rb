@@ -12,7 +12,6 @@ class BackportService
     fetch_latest
     checkout_target_branch
     cherry_pick
-    push_changes
   end
 
   private
@@ -28,10 +27,22 @@ class BackportService
   end
 
   def cherry_pick
-    system("git cherry-pick -x -m 1 #{sha}")
+    Comment.new.tap do |comment|
+      if system("git cherry-pick -x -m 1 #{sha}")
+        comment.capture_success
+        push_changes
+      else
+        comment.capture_conflict
+        stash_changes
+      end
+    end
   end
 
   def push_changes
     system("git push origin #{target_branch}")
+  end
+
+  def stash_changes
+    system("git add -A && git stash")
   end
 end
