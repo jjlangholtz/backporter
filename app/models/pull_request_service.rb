@@ -6,26 +6,29 @@ class PullRequestService
   def initialize(pull_request, comment)
     @repo = pull_request.repo
     @id = pull_request.id
+    @labels = pull_request.target_labels
     @comment = comment
   end
 
   def run
-    remove_target_label
-    add_backport_status_label
-    comment_on_pull_request
+    labels.each do |label|
+      remove_target_label(label.name)
+      add_backport_status_label(label)
+      comment_on_pull_request
+    end
   end
 
   private
 
-  attr_reader :repo, :id, :comment
+  attr_reader :repo, :id, :labels, :comment
 
-  def remove_target_label
-    client.remove_label(Settings.target_label)
+  def remove_target_label(name)
+    client.remove_label(name)
   end
 
-  def add_backport_status_label
-    label = conflict? ? Settings.conflict_label : Settings.backport_label
-    client.add_label(label)
+  def add_backport_status_label(label)
+    name = conflict? ? label.conflict : label.success
+    client.add_label(name)
   end
 
   def conflict?

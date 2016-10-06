@@ -1,0 +1,10 @@
+---
+  :darga/yes:
+    :branch: darga
+    :conflict: darga/conflict
+    :success: darga/backported
+
+  :euwe/yes:
+    :branch: euwe
+    :conflict: euwe/conflict
+    :success: euwe/backported

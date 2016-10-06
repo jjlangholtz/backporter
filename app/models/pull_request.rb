@@ -19,21 +19,25 @@ class PullRequest
     data['action'] == 'closed' && data.dig('pull_request', 'merged') == true
   end
 
-  def label
-    labeled? ? data.dig('pull_request', 'label', 'name') : ''
-  end
-
   def labeled?
     data['action'] == 'labeled'
   end
 
   def includes_target_label?
-    client.labels.any? { |label| label.name == Settings.target_label }
+    target_labels.present?
+  end
+
+  def target_labels
+    labels.select { |label| label.in?(Label.target_label_names) }.map { |name| Label.for(name) }
   end
 
   private
 
   attr_reader :data
+
+  def labels
+    @labels ||= client.labels.map(&:name)
+  end
 
   def client
     @client ||= GitHubApi.new(repo, id)
