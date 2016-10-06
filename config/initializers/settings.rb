@@ -1,2 +1,2 @@
 # Bootstrap labels from yaml
-Label.load
+Label.label_store

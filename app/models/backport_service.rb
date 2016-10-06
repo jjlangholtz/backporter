@@ -1,38 +1,36 @@
 class BackportService
-  def self.run(pull_request)
-    new(pull_request).run
+  def self.run(pull_request, label)
+    new(pull_request, label).run
   end
 
-  def initialize(pull_request)
+  def initialize(pull_request, label)
     @sha = pull_request.merge_commit_sha
-    @labels = pull_request.target_labels
+    @label = label
   end
 
   def run
-    labels.each do |label|
-      fetch_latest
-      checkout(label.branch)
-      cherry_pick(label.branch)
-    end
+    fetch_latest
+    checkout
+    cherry_pick
   end
 
   private
 
-  attr_reader :labels, :sha
+  attr_reader :label, :sha
 
   def fetch_latest
     system('git fetch -p')
   end
 
-  def checkout(branch)
-    system("git checkout #{branch}")
+  def checkout
+    system("git checkout #{label.branch}")
   end
 
-  def cherry_pick(branch)
+  def cherry_pick
     Comment.new.tap do |comment|
       if system("git cherry-pick -x -m 1 #{sha}")
         comment.capture_success
-        push_changes(branch)
+        push_changes(label.branch)
       else
         comment.capture_conflict
         stash_changes
@@ -40,8 +38,8 @@ class BackportService
     end
   end
 
-  def push_changes(branch)
-    system("git push origin #{branch}")
+  def push_changes
+    system("git push origin #{label.branch}")
   end
 
   def stash_changes

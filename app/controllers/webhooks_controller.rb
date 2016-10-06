@@ -4,11 +4,11 @@ class WebhooksController < ApplicationController
 
     if pull_request.merged? && pull_request.includes_target_label?
       Dir.chdir('/Users/jlanghol/repos/jjlangholtz/backporter') do
-        comment = BackportService.run(pull_request)
-        PullRequestService.run(pull_request, comment)
+        pull_request.target_labels.each do |label|
+          comment = BackportService.run(pull_request, label)
+          PullRequestService.run(pull_request, label, comment)
+        end
       end
-    elsif pull_request.labeled?
-      # TODO: Persist PR with labels
     end
 
     head :ok

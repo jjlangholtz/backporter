@@ -1,26 +1,24 @@
 class PullRequestService
-  def self.run(pull_request, comment)
-    new(pull_request, comment).run
+  def self.run(pull_request, label, comment)
+    new(pull_request, label, comment).run
   end
 
-  def initialize(pull_request, comment)
+  def initialize(pull_request, label, comment)
     @repo = pull_request.repo
     @id = pull_request.id
-    @labels = pull_request.target_labels
+    @label = label
     @comment = comment
   end
 
   def run
-    labels.each do |label|
-      remove_target_label(label.name)
-      add_backport_status_label(label)
-      comment_on_pull_request
-    end
+    remove_target_label(label.name)
+    add_backport_status_label(label)
+    comment_on_pull_request
   end
 
   private
 
-  attr_reader :repo, :id, :labels, :comment
+  attr_reader :repo, :id, :label, :comment
 
   def remove_target_label(name)
     client.remove_label(name)
