@@ -28,7 +28,7 @@ class PullRequest
   end
 
   def target_labels
-    labels.select { |label| label.in?(Label.target_label_names) }.map { |name| Label.for(name) }
+    @target_labels ||= labels.select { |label| label.in?(Label.target_label_names) }.map { |name| Label.for(name) }
   end
 
   private
