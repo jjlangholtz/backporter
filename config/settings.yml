@@ -1,7 +1,0 @@
----
-:project:
-  :backport_label: backported
-  :conflict_label: conflict
-  :repo: /Users/jlanghol/repos/jjlangholtz/backporter
-  :target_branch: backports
-  :target_label: "yes"
