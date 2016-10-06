@@ -30,7 +30,7 @@ class BackportService
     Comment.new.tap do |comment|
       if system("git cherry-pick -x -m 1 #{sha}")
         comment.capture_success
-        push_changes(label.branch)
+        push_changes
       else
         comment.capture_conflict
         stash_changes
