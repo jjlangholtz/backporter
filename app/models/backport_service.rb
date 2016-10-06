@@ -4,7 +4,7 @@ class BackportService
   end
 
   def initialize(pull_request, label)
-    @sha = pull_request.merge_commit_sha
+    @pull_request = pull_request
     @label = label
   end
 
@@ -16,7 +16,7 @@ class BackportService
 
   private
 
-  attr_reader :label, :sha
+  attr_reader :label, :pull_request
 
   def fetch_latest
     system('git fetch -p')
@@ -27,8 +27,8 @@ class BackportService
   end
 
   def cherry_pick
-    Comment.new.tap do |comment|
-      if system("git cherry-pick -x -m 1 #{sha}")
+    Comment.new(pull_request, label).tap do |comment|
+      if system("git cherry-pick -x -m 1 #{pull_request.merge_commit_sha}")
         comment.capture_success
         push_changes
       else

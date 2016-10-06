@@ -11,6 +11,10 @@ class PullRequest
     data.dig('repository', 'full_name')
   end
 
+  def user
+    data.dig('pull_request', 'user', 'login')
+  end
+
   def merge_commit_sha
     merged? ? data.dig('pull_request', 'merge_commit_sha') : ''
   end

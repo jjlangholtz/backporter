@@ -1,10 +1,15 @@
 class Comment
   attr_reader :content
 
+  def initialize(pull_request, label)
+    @pull_request = pull_request
+    @label = label
+  end
+
   def capture_success
     @backport_status = :success
     @content = <<~EOS
-      Backported with no conflicts: #{`git rev-parse --short HEAD`}
+      Backported to `#{branch}` with no conflicts: #{`git rev-parse --short HEAD`}
 
       ```diff
       #{`git show`}
@@ -14,7 +19,7 @@ class Comment
   def capture_conflict
     @backport_status = :conflict
     @content = <<~EOS
-      Backport failed with conflicts:
+      Backport to `#{branch}` failed with conflicts, @#{user} please review:
 
       ```diff
       #{`git diff`}
@@ -23,5 +28,17 @@ class Comment
 
   def backport_failed?
     @backport_status == :conflict
+  end
+
+  private
+
+  attr_reader :pull_request, :label
+
+  def branch
+    label.branch
+  end
+
+  def user
+    pull_request.user
   end
 end
