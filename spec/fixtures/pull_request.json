@@ -1,0 +1,14 @@
+{
+  "action": "closed",
+  "pull_request": {
+    "merged": true,
+    "merge_commit_sha": "123",
+    "number": 1,
+    "user": {
+      "login": "jjlangholtz"
+    }
+  },
+  "repository": {
+    "full_name": "jjlangholtz/backporter"
+  }
+}

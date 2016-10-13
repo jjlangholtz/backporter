@@ -23,10 +23,6 @@ class PullRequest
     data['action'] == 'closed' && data.dig('pull_request', 'merged') == true
   end
 
-  def labeled?
-    data['action'] == 'labeled'
-  end
-
   def includes_target_label?
     target_labels.present?
   end
