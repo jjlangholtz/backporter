@@ -6,7 +6,11 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 
 if Rails.env.test?
   require 'simplecov'
-  SimpleCov.start('rails')
+  SimpleCov.start('rails') do
+    add_filter '/channels/'
+    add_filter '/jobs/'
+    add_filter '/mailers/'
+  end
 end
 
 require 'spec_helper'
