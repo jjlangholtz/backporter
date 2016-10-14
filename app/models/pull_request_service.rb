@@ -4,8 +4,7 @@ class PullRequestService
   end
 
   def initialize(pull_request, label, comment)
-    @repo = pull_request.repo
-    @id = pull_request.id
+    @pull_request = pull_request
     @label = label
     @comment = comment
   end
@@ -14,11 +13,12 @@ class PullRequestService
     remove_target_label(label.name)
     add_backport_status_label(label)
     comment_on_pull_request
+    create_backport_conflict_issue if conflict?
   end
 
   private
 
-  attr_reader :repo, :id, :label, :comment
+  attr_reader :pull_request, :label, :comment
 
   def remove_target_label(name)
     client.remove_label(name)
@@ -33,11 +33,15 @@ class PullRequestService
     comment.backport_failed?
   end
 
+  def create_backport_conflict_issue
+    client.create_issue('Backport failed', comment.content)
+  end
+
   def comment_on_pull_request
     client.comment(comment.content)
   end
 
   def client
-    @client ||= GitHubApi.new(repo, id)
+    @client ||= GitHubApi.new(pull_request)
   end
 end

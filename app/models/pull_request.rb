@@ -40,6 +40,6 @@ class PullRequest
   end
 
   def client
-    @client ||= GitHubApi.new(repo, id)
+    @client ||= GitHubApi.new(self)
   end
 end
