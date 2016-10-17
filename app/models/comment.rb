@@ -1,5 +1,5 @@
 class Comment
-  attr_reader :content
+  attr_reader :content, :backport_sha
 
   def initialize(pull_request, label)
     @pull_request = pull_request
@@ -8,8 +8,9 @@ class Comment
 
   def capture_success
     @backport_status = :success
+    @backport_sha = `git rev-parse HEAD`
     @content = <<~EOS
-      Backported to `#{branch}` with no conflicts: #{`git rev-parse --short HEAD`}
+      Backported to `#{branch}` with no conflicts: #{backport_sha}
 
       ```diff
       #{`git show`}
