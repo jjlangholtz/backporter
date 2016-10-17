@@ -5,6 +5,7 @@ ruby '2.3.1'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 
 gem 'coffee-rails', '~> 4.2'
+gem 'google-api-client', '~> 0.9'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'octokit', '~> 4.3'
@@ -27,11 +28,11 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console'
-  gem 'webmock'
 end
 
 group :test do
   gem 'simplecov', require: false
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

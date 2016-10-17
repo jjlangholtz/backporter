@@ -6,7 +6,7 @@ describe Comment do
       pull_request = instance_double('PullRequest')
       label = instance_double('Label', :branch => 'backports')
 
-      allow_any_instance_of(Object).to receive(:`).with('git rev-parse --short HEAD') { 'abc123' }
+      allow_any_instance_of(Object).to receive(:`).with('git rev-parse HEAD') { 'abc123' }
       allow_any_instance_of(Object).to receive(:`).with('git show') { 'redacted git show' }
 
       comment = described_class.new(pull_request, label)

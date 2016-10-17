@@ -24,6 +24,13 @@ describe PullRequest do
     end
   end
 
+  describe '#html_url' do
+    it 'returns the html url from the payload params' do
+      pull_request = PullRequest.new(params)
+      expect(pull_request.html_url).to eq 'https://github.com/jjlangholtz/backporter/pull/1'
+    end
+  end
+
   describe '#merge_commit_sha' do
     it 'returns the merge_commit_sha from the payload params' do
       pull_request = PullRequest.new(params)
