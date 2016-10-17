@@ -1,6 +1,7 @@
 {
   "action": "closed",
   "pull_request": {
+    "html_url": "https://github.com/jjlangholtz/backporter/pull/1",
     "merged": true,
     "merge_commit_sha": "123",
     "number": 1,
